@@ -40,6 +40,21 @@ class NuclearPowerPlantWindow(QMainWindow):
         secondary_layout.addWidget(self.control_panel)
         secondary_layout.addStretch(1)
 
+        self.legend = QWidget()
+        legend_layout = QVBoxLayout(self.legend)
+        self.legend.setMaximumWidth(150)
+        self.legend.setStyleSheet("background-color: rgba(0,0,0,0.8); color: white;")
+
+        legend_layout.addWidget(QLabel("LEGENDA"))
+        legend_layout.addWidget(QLabel("Fuel Rod"))
+        legend_layout.addWidget(QLabel("Control Rod"))
+        legend_layout.addWidget(QLabel("Light blue water - cold)"))
+        legend_layout.addWidget(QLabel("Orange water - hot"))
+        legend_layout.addWidget(QLabel("Red water - boiling"))
+        legend_layout.addWidget(QLabel("Yellow - steam"))
+        legend_layout.addWidget(QLabel("Blue - water pipes"))
+
+        secondary_layout.insertWidget(1, self.legend)  # wstaw obok cp_tittle
 
 
         #simulation panel
@@ -82,7 +97,7 @@ class NuclearPowerPlantWindow(QMainWindow):
         self.control_panel_widget.rod_4_changed.connect(self.reactor.set_rod_4)
 
         self.control_panel_widget.valve_1_changed.connect(self.reactor.switch_valve_1)
-        self.control_panel_widget.valve_2_changed.connect(self.reactor.switch_valve_2)
+        # self.control_panel_widget.valve_2_changed.connect(self.reactor.switch_valve_2)
 
         #update grafiki
         self.control_panel_widget.rod_1_changed.connect(self.update_graphics_all)
@@ -90,7 +105,8 @@ class NuclearPowerPlantWindow(QMainWindow):
         self.control_panel_widget.rod_3_changed.connect(self.update_graphics_all)
         self.control_panel_widget.rod_4_changed.connect(self.update_graphics_all)
         self.control_panel_widget.valve_1_changed.connect(self.update_graphics_all)
-        self.control_panel_widget.valve_2_changed.connect(self.update_graphics_all)
+        self.control_panel_widget.valve_1_changed.connect(self.update_valve_graphics)
+        # self.control_panel_widget.valve_2_changed.connect(self.update_graphics_all)
         # self.control_panel_widget.rod_1_changed.connect(self.update_graphics_rods)
         # self.control_panel_widget.rod_2_changed.connect(self.update_graphics_rods)
         # self.control_panel_widget.rod_3_changed.connect(self.update_graphics_rods)
@@ -103,6 +119,9 @@ class NuclearPowerPlantWindow(QMainWindow):
             self.reactor.control_rod_2,
             self.reactor.control_rod_3,
             self.reactor.control_rod_4])
+
+    def update_valve_graphics(self, state):
+        self.simulation_graphics.valve1_display.update_state(state)
 
     def update_graphics_all(self):
         self.update_graphics_rods()

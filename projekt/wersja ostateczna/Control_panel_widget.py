@@ -12,7 +12,7 @@ class ControlPanel(QtWidgets.QWidget, UiControlPanel):
     rod_4_changed = QtCore.pyqtSignal(int)
 
     valve_1_changed = QtCore.pyqtSignal(bool)
-    valve_2_changed = QtCore.pyqtSignal(bool)
+    # valve_2_changed = QtCore.pyqtSignal(bool)
 
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -24,7 +24,7 @@ class ControlPanel(QtWidgets.QWidget, UiControlPanel):
         self.slider_4.valueChanged.connect(self.slider_4_changed)
 
         self.valve_1.toggled.connect(self.valve_1_switched)
-        self.valve_2.toggled.connect(self.valve_2_switched)
+        # self.valve_2.toggled.connect(self.valve_2_switched)
 
 
     def slider_1_changed(self, value):
@@ -43,8 +43,8 @@ class ControlPanel(QtWidgets.QWidget, UiControlPanel):
     def valve_1_switched(self, checked):
         self.valve_1_changed.emit(checked)
 
-    def valve_2_switched(self, checked):
-        self.valve_2_changed.emit(checked)
+    # def valve_2_switched(self, checked):
+    #     self.valve_2_changed.emit(checked)
 
 
     #wplyw innych czynnikow na rody
@@ -54,6 +54,6 @@ class ControlPanel(QtWidgets.QWidget, UiControlPanel):
         self.slider_3.setValue(rod_3)
         self.slider_4.setValue(rod_4)
 
-    def set_valves(self, valve_1, valve_2):
+    def set_valves(self, valve_1):
         self.valve_1.setChecked(valve_1)
-        self.valve_2.setChecked(valve_2)
+        # self.valve_2.setChecked(valve_2)

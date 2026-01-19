@@ -25,7 +25,7 @@ class DReactorTank(QGraphicsRectItem):
         self.level_of_water.setBrush(QBrush(QColor(0, 150, 255)))
         self.level_of_water.setParentItem(self)
         # Kolory wg poziomu
-        colors = {0: QColor(5, 116, 161), 30: QColor(182, 201, 36), 80: QColor(201, 122, 36), 100: QColor(201, 64, 36)}
+        colors = {0: QColor(154,225,252), 30: QColor(182, 201, 36), 80: QColor(201, 122, 36), 100: QColor(201, 64, 36)}
         self.level_of_water.setBrush(QBrush(colors.get(water_level // 25 * 25, QColor(0, 150, 255))))
 
 
@@ -186,6 +186,22 @@ class SteamPath:
         self.path.lineTo(QPoint(400, 235))
         self.steam_path = self.scene.addPath(self.path, QPen(QColor('white'), 4))
 
+
+class DValve1(QGraphicsRectItem):  # DValve1!
+    def __init__(self, parent_scene, x=400, y=700, w=30, h=50, valve_state=False):
+        super().__init__(x, y, w, h)
+        color = QColor(255, 255, 255) if valve_state else QColor(0, 0, 0)
+        self.setBrush(QBrush(color))
+        self.setPen(QPen(QColor(0, 0, 0), 2))
+        self.parent_scene = parent_scene
+        parent_scene.addItem(self)
+        self.valve_open = valve_state
+
+    def update_state(self, open):
+        self.valve_open = open
+        color = QColor(255, 255, 255) if open else QColor(0, 0, 0)
+        self.setBrush(QBrush(color))
+
 #=====================KLASY ANIMACJI============================
 
 class FlowAnimation:
@@ -268,6 +284,8 @@ class SimulationPanel:
         self.fuelrod3 = FuelRod3(self.scene)
         self.fuelrod4 = FuelRod4(self.scene)
 
+        self.valve1_display = DValve1(self.scene, 400, 700, 30, 50, False)
+
 
 
 
@@ -284,6 +302,9 @@ class SimulationPanel:
         self.water_flow.set_active(valve_1)
         self.reactor_water.update_level(reactor.water_level)
         self.condenser_water.update_level(condenser_water / 4)
+
+    def update_valves(self, valve_1):
+        self.valve1_display.update_state(valve_1)
 
     def update_positions(self, positions):
         for i, pos in enumerate(positions):

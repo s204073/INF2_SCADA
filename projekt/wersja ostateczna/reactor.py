@@ -12,7 +12,7 @@ class Reactor:
         self.control_rod_4 = 0
 
         self.valve_1 = False
-        self.valve_2 = False
+
 
         self.water_level = 100
         self.power = 0
@@ -53,9 +53,9 @@ class Reactor:
         self.valve_1 = value
         self.reactor_update_state()
 
-    def switch_valve_2(self, value):
-        self.valve_2 = value
-        self.reactor_update_state()
+    # def switch_valve_2(self, value):
+    #     self.valve_2 = value
+    #     self.reactor_update_state()
 
 
 
