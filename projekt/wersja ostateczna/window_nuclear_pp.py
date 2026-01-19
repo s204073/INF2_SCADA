@@ -3,6 +3,8 @@ from PyQt5.QtWidgets import QMainWindow, QLabel, QVBoxLayout, QHBoxLayout, QWidg
 from PyQt5.QtCore import QSize
 
 from Control_panel_widget import ControlPanel
+from reactor import Reactor
+from steam_turbine import SteamTurbine
 
 
 class NuclearPowerPlantWindow(QMainWindow):
@@ -43,6 +45,21 @@ class NuclearPowerPlantWindow(QMainWindow):
 
         self.control_panel_widget = ControlPanel()
         cp_layout.addWidget(self.control_panel_widget)
+
+        #podlaczanie sygnalow
+        self.reactor = Reactor()
+        self.steam_turbine = SteamTurbine(self.reactor)
+
+        self.control_panel_widget.rod_1_changed.connect(self.reactor.set_rod_1)
+        self.control_panel_widget.rod_2_changed.connect(self.reactor.set_rod_2)
+        self.control_panel_widget.rod_3_changed.connect(self.reactor.set_rod_3)
+        self.control_panel_widget.rod_4_changed.connect(self.reactor.set_rod_4)
+
+
+
+
+
+
 
 
 
