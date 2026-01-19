@@ -10,7 +10,7 @@ class MainWindow(QMainWindow):
         super().__init__()
 
         self.setWindowTitle("Menu")
-        self.setMinimumSize(QSize(200, 400))
+        self.setMinimumSize(QSize(200, 200))
         self.window_npp = NuclearPowerPlantWindow() #sygnal
 
         self.choice_nuclear_pp = QPushButton("Nuclear Power Plant") #przycisk

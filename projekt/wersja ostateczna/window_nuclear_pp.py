@@ -54,6 +54,11 @@ class NuclearPowerPlantWindow(QMainWindow):
 
         #widok scena
         self.graphics_view = QGraphicsView(self.scene)
+
+        #zeby nie wywalalo
+        self.graphics_view.setOptimizationFlag(QGraphicsView.DontSavePainterState, True)
+        self.graphics_view.setViewportUpdateMode(QGraphicsView.BoundingRectViewportUpdate)
+
         self.graphics_view.setMaximumWidth(800)
         self.graphics_view.setMinimumWidth(600)
         self.graphics_view.setSceneRect(0,0,800,600)
@@ -79,20 +84,30 @@ class NuclearPowerPlantWindow(QMainWindow):
         self.control_panel_widget.valve_1_changed.connect(self.reactor.switch_valve_1)
         self.control_panel_widget.valve_2_changed.connect(self.reactor.switch_valve_2)
 
-        #na koncu __init__ - update grafiki
-        self.control_panel_widget.rod_1_changed.connect(self.update_graphics_rods)
-        self.control_panel_widget.rod_2_changed.connect(self.update_graphics_rods)
-        self.control_panel_widget.rod_3_changed.connect(self.update_graphics_rods)
-        self.control_panel_widget.rod_4_changed.connect(self.update_graphics_rods)
+        #update grafiki
+        self.control_panel_widget.rod_1_changed.connect(self.update_graphics_all)
+        self.control_panel_widget.rod_2_changed.connect(self.update_graphics_all)
+        self.control_panel_widget.rod_3_changed.connect(self.update_graphics_all)
+        self.control_panel_widget.rod_4_changed.connect(self.update_graphics_all)
+        self.control_panel_widget.valve_1_changed.connect(self.update_graphics_all)
+        self.control_panel_widget.valve_2_changed.connect(self.update_graphics_all)
+        # self.control_panel_widget.rod_1_changed.connect(self.update_graphics_rods)
+        # self.control_panel_widget.rod_2_changed.connect(self.update_graphics_rods)
+        # self.control_panel_widget.rod_3_changed.connect(self.update_graphics_rods)
+        # self.control_panel_widget.rod_4_changed.connect(self.update_graphics_rods)
 
 
     def update_graphics_rods(self):
-        self.simulation_graphics.control_rods.update_positions([
+        self.simulation_graphics.update_positions([
             self.reactor.control_rod_1,
             self.reactor.control_rod_2,
             self.reactor.control_rod_3,
             self.reactor.control_rod_4])
 
+    def update_graphics_all(self):
+        self.update_graphics_rods()
+        self.simulation_graphics.steam_flow.set_active(self.reactor.power > 0)
+        self.simulation_graphics.water_flow.set_active(self.reactor.valve_1)
 
 
 

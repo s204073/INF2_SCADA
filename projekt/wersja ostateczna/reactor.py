@@ -30,7 +30,7 @@ class Reactor:
         self.last_print_time = 0
         self.print_timer = QTimer()
         self.print_timer.timeout.connect(self.reactor_feedback_strangled)
-        self.print_timer.start(5000)
+        self.print_timer.start(50000)
 
     def set_rod_1(self, value):
         self.control_rod_1 = value
